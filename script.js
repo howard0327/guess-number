@@ -79,8 +79,14 @@ function startGame(range){
     document.getElementById("result").textContent="";
     document.getElementById("cost").textContent="";
 
-    document.getElementById("input").value="";
-    document.getElementById("input").focus();
+    document.getElementById("history").innerHTML="";
+
+    document.getElementById("restart").style.display="none";
+
+    const input=document.getElementById("input");
+    input.value="";
+    input.disabled=false;
+    input.focus();
 }
 
 function guess(){
@@ -102,6 +108,8 @@ function guess(){
         document.getElementById("result").textContent="答案就是 "+ans+"！";
         document.getElementById("cost").textContent="總共花了 "+cost+" 步";
 
+        addHistory(cost,guess,"猜中了");
+
         if(cost<=should){
             document.getElementById("status").textContent="挑戰成功";
         }else{
@@ -109,8 +117,11 @@ function guess(){
         }
 
         input.disabled=true;
+        document.getElementById("restart").style.display="block";
         return;
     }
+
+    let response="";
 
     if(can){
         const ttt=Math.floor(Math.random()*100)+1;
@@ -119,27 +130,45 @@ function guess(){
             can=false;
 
             if(guess<ans){
-                document.getElementById("result").textContent="答案比 "+guess+" 小";
+                response="答案比 "+guess+" 小";
             }else{
-                document.getElementById("result").textContent="答案比 "+guess+" 大";
+                response="答案比 "+guess+" 大";
             }
         }else{
             re+=10;
 
             if(guess<ans){
-                document.getElementById("result").textContent="答案比 "+guess+" 大";
+                response="答案比 "+guess+" 大";
             }else{
-                document.getElementById("result").textContent="答案比 "+guess+" 小";
+                response="答案比 "+guess+" 小";
             }
         }
     }else{
         if(guess<ans){
-            document.getElementById("result").textContent="答案比 "+guess+" 大";
+            response="答案比 "+guess+" 大";
         }else{
-            document.getElementById("result").textContent="答案比 "+guess+" 小";
+            response="答案比 "+guess+" 小";
         }
     }
 
+    document.getElementById("result").textContent=response;
+
+    addHistory(cost,guess,response);
+
     input.value="";
     input.focus();
+}
+
+function addHistory(number,guess,response){
+    const history=document.getElementById("history");
+
+    const item=document.createElement("p");
+    item.textContent="第 "+number+" 次：猜 "+guess+" → "+response;
+
+    history.appendChild(item);
+}
+
+function restartGame(){
+    document.getElementById("game").style.display="none";
+    document.getElementById("menu").style.display="block";
 }
