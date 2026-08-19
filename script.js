@@ -74,7 +74,7 @@ function startGame(range){
     document.getElementById("menu").style.display="none";
     document.getElementById("game").style.display="block";
 
-    document.getElementById("range").textContent="範圍：1 ~ "+(t-1);
+    document.getElementById("range").textContent="範圍：0 ~ "+t;
     document.getElementById("status").textContent="在 "+should+" 步內一定猜得出來";
     document.getElementById("result").textContent="";
     document.getElementById("cost").textContent="";
