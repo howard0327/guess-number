@@ -171,8 +171,9 @@ function guess(){
     }
 
     let response="";
+    const isLie=cost===lieStep;
 
-    if(cost===lieStep){
+    if(isLie){
         if(guess<ans){
             response="答案比 "+guess+" 小";
         }else{
@@ -188,17 +189,21 @@ function guess(){
 
     document.getElementById("result").textContent=response;
 
-    addHistory(cost,guess,response);
+    addHistory(cost,guess,response,isLie);
 
     currentInput="";
     updateInputDisplay();
 }
 
-function addHistory(number,guess,response){
+function addHistory(number,guess,response,isLie=false){
     const history=document.getElementById("history");
 
     const item=document.createElement("p");
     item.textContent="第 "+number+" 次：猜 "+guess+" → "+response;
+
+    if(isLie){
+        item.classList.add("lie");
+    }
 
     history.insertBefore(item,history.firstChild);
 }
