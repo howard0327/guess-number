@@ -202,7 +202,8 @@ function addHistory(number,guess,response,isLie=false){
     item.textContent="第 "+number+" 次：猜 "+guess+" → "+response;
 
     if(isLie){
-        item.classList.add("lie");
+        item.style.color="red";
+        item.style.fontWeight="bold";
     }
 
     history.insertBefore(item,history.firstChild);
