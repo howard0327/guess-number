@@ -49,6 +49,11 @@ fetch("nosure_dp.txt")
         console.error(error);
     });
 
+function showMenu(){
+    document.getElementById("intro").style.display="none";
+    document.getElementById("menu").style.display="block";
+}
+
 function startGame(range){
     if(!window.dpLoaded){
         alert("DP檔案還沒載入完成，請稍等一下再開始");
