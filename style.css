@@ -1,53 +1,138 @@
+*{
+    box-sizing:border-box;
+}
+
 body{
     margin:0;
-    background:#111;
-    color:#fff;
-    font-family:Arial,sans-serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family:Arial,"Noto Sans TC",sans-serif;
+    background:#f2f2f2;
 }
 
 .game{
-    width:min(700px,90%);
-    margin:80px auto;
+    width:90%;
+    max-width:420px;
+    padding:25px;
+    background:white;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.15);
     text-align:center;
 }
 
 h1{
-    font-size:42px;
-    margin-bottom:20px;
-}
-
-#range{
-    font-size:22px;
-}
-
-#status{
-    font-size:20px;
-    margin-top:40px;
-}
-
-#guess{
-    font-size:90px;
-    font-weight:bold;
-    margin:40px 0;
-}
-
-.buttons{
-    display:flex;
-    justify-content:center;
-    gap:15px;
-    flex-wrap:wrap;
+    margin-top:0;
 }
 
 button{
-    padding:15px 25px;
     border:none;
-    border-radius:8px;
-    background:#333;
-    color:#fff;
+    border-radius:10px;
+    padding:12px 18px;
+    margin:5px;
     font-size:18px;
     cursor:pointer;
 }
 
-button:hover{
-    background:#555;
+#menu button{
+    display:block;
+    width:80%;
+    margin:10px auto;
+}
+
+#range{
+    font-size:18px;
+}
+
+#status{
+    font-size:18px;
+}
+
+#inputDisplay{
+    width:100%;
+    min-height:60px;
+    margin:15px 0;
+    padding:10px;
+    border:2px solid #ccc;
+    border-radius:10px;
+    font-size:32px;
+    text-align:right;
+    overflow:hidden;
+}
+
+#keypad{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+#keypad button{
+    margin:0;
+    min-height:55px;
+    font-size:24px;
+}
+
+#result{
+    font-size:20px;
+    min-height:30px;
+}
+
+#cost{
+    font-size:17px;
+}
+
+#history{
+    margin-top:15px;
+    max-height:180px;
+    overflow-y:auto;
+    text-align:left;
+    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    padding:5px 10px;
+}
+
+#history p{
+    margin:8px 0;
+}
+
+#end{
+    margin-top:20px;
+    padding:20px;
+    border-radius:12px;
+    display:none;
+}
+
+#endResult{
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+#end button{
+    width:80%;
+}
+
+@media(max-width:500px){
+    body{
+        align-items:flex-start;
+        padding-top:20px;
+    }
+
+    .game{
+        width:94%;
+        padding:18px;
+    }
+
+    h1{
+        font-size:26px;
+    }
+
+    #keypad button{
+        min-height:60px;
+    }
+
+    #history{
+        max-height:150px;
+    }
 }
