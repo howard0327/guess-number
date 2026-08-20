@@ -13,27 +13,45 @@
 
     <div id="menu">
         <p>請選擇範圍</p>
-        <button onclick="startGame(20)">1 ~ 20</button>
-        <button onclick="startGame(50)">1 ~ 50</button>
-        <button onclick="startGame(100)">1 ~ 100</button>
-        <button onclick="startGame(200)">1 ~ 200</button>
+        <button onclick="startGame(20)">0 ~ 20</button>
+        <button onclick="startGame(50)">0 ~ 50</button>
+        <button onclick="startGame(100)">0 ~ 100</button>
+        <button onclick="startGame(200)">0 ~ 200</button>
     </div>
 
     <div id="game" style="display:none;">
         <p id="range"></p>
         <p id="status"></p>
 
-        <input id="input" type="number" placeholder="輸入猜測">
-        <button onclick="guess()">猜測</button>
+        <div id="inputDisplay">0</div>
+
+        <div id="keypad">
+            <button onclick="pressNumber(1)">1</button>
+            <button onclick="pressNumber(2)">2</button>
+            <button onclick="pressNumber(3)">3</button>
+
+            <button onclick="pressNumber(4)">4</button>
+            <button onclick="pressNumber(5)">5</button>
+            <button onclick="pressNumber(6)">6</button>
+
+            <button onclick="pressNumber(7)">7</button>
+            <button onclick="pressNumber(8)">8</button>
+            <button onclick="pressNumber(9)">9</button>
+
+            <button onclick="deleteNumber()">←</button>
+            <button onclick="pressNumber(0)">0</button>
+            <button onclick="guess()">✓</button>
+        </div>
 
         <p id="result"></p>
         <p id="cost"></p>
 
         <div id="history"></div>
 
-        <button id="restart" onclick="restartGame()" style="display:none;">
-            重新開始
-        </button>
+        <div id="end">
+            <div id="endResult"></div>
+            <button onclick="restartGame()">重新開始</button>
+        </div>
     </div>
 </div>
 
