@@ -6,6 +6,7 @@ let should=0;
 let cost=0;
 let lieStep=0;
 let currentInput="";
+let lieHistory=null;
 
 const lieRates={
     20:[20,20,20,20,20],
@@ -66,6 +67,7 @@ function startGame(range){
 
     cost=0;
     currentInput="";
+    lieHistory=null;
 
     lieStep=getLieStep(range);
 
@@ -164,14 +166,19 @@ function guess(){
 
         document.getElementById("end").style.display="block";
 
+        if(lieHistory){
+            lieHistory.style.color="red";
+            lieHistory.style.fontWeight="bold";
+        }
+
         currentInput="";
         updateInputDisplay();
 
         return;
     }
 
-    let response="";
     const isLie=cost===lieStep;
+    let response="";
 
     if(isLie){
         if(guess<ans){
@@ -189,22 +196,21 @@ function guess(){
 
     document.getElementById("result").textContent=response;
 
-    addHistory(cost,guess,response,isLie);
+    addHistory(cost,guess,response);
+
+    if(isLie){
+        lieHistory=document.getElementById("history").firstChild;
+    }
 
     currentInput="";
     updateInputDisplay();
 }
 
-function addHistory(number,guess,response,isLie=false){
+function addHistory(number,guess,response){
     const history=document.getElementById("history");
 
     const item=document.createElement("p");
     item.textContent="第 "+number+" 次：猜 "+guess+" → "+response;
-
-    if(isLie){
-        item.style.color="red";
-        item.style.fontWeight="bold";
-    }
 
     history.insertBefore(item,history.firstChild);
 }
