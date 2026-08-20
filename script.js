@@ -4,8 +4,15 @@ let ans=0;
 let t=0;
 let should=0;
 let cost=0;
-let re=0;
-let can=true;
+let lieStep=0;
+let currentInput="";
+
+const lieRates={
+    20:[20,20,20,20,20],
+    50:[15,10,20,25,20,10],
+    100:[10,10,15,20,20,15,10],
+    200:[5,10,15,20,20,15,10,5]
+};
 
 fetch("nosure_dp.txt")
     .then(response=>{
@@ -58,18 +65,9 @@ function startGame(range){
     }
 
     cost=0;
+    currentInput="";
 
-    if(t===20){
-        re=35;
-    }else if(t===50){
-        re=25;
-    }else if(t===100){
-        re=20;
-    }else{
-        re=15;
-    }
-
-    can=true;
+    lieStep=getLieStep(range);
 
     document.getElementById("menu").style.display="none";
     document.getElementById("game").style.display="block";
@@ -78,20 +76,64 @@ function startGame(range){
     document.getElementById("status").textContent="在 "+should+" 步內一定猜得出來";
     document.getElementById("result").textContent="";
     document.getElementById("cost").textContent="";
-
     document.getElementById("history").innerHTML="";
+    document.getElementById("end").style.display="none";
+    document.getElementById("inputDisplay").textContent="0";
+}
 
-    document.getElementById("restart").style.display="none";
+function getLieStep(range){
+    const rates=lieRates[range];
+    const random=Math.random()*100;
+    let sum=0;
 
-    const input=document.getElementById("input");
-    input.value="";
-    input.disabled=false;
-    input.focus();
+    for(let i=0;i<rates.length;i++){
+        sum+=rates[i];
+
+        if(random<sum){
+            return i+1;
+        }
+    }
+
+    return rates.length;
+}
+
+function pressNumber(number){
+    if(document.getElementById("end").style.display!=="none"){
+        return;
+    }
+
+    if(currentInput==="0"){
+        currentInput="";
+    }
+
+    currentInput+=number;
+    updateInputDisplay();
+}
+
+function deleteNumber(){
+    if(document.getElementById("end").style.display!=="none"){
+        return;
+    }
+
+    currentInput=currentInput.slice(0,-1);
+
+    if(currentInput===""){
+        currentInput="0";
+    }
+
+    updateInputDisplay();
+}
+
+function updateInputDisplay(){
+    document.getElementById("inputDisplay").textContent=currentInput;
 }
 
 function guess(){
-    const input=document.getElementById("input");
-    const guess=Number(input.value);
+    if(currentInput===""){
+        return;
+    }
+
+    const guess=Number(currentInput);
 
     if(!Number.isInteger(guess)){
         return;
@@ -99,49 +141,42 @@ function guess(){
 
     if(guess<1 || guess>=t){
         document.getElementById("result").textContent="請輸入範圍內的數字";
+        currentInput="";
+        updateInputDisplay();
         return;
     }
 
     cost++;
 
     if(guess===ans){
+        addHistory(cost,guess,"猜中了");
+
         document.getElementById("result").textContent="答案就是 "+ans+"！";
         document.getElementById("cost").textContent="總共花了 "+cost+" 步";
 
-        addHistory(cost,guess,"猜中了");
-
         if(cost<=should){
             document.getElementById("status").textContent="挑戰成功";
+            document.getElementById("endResult").textContent="挑戰成功！";
         }else{
             document.getElementById("status").textContent="挑戰失敗";
+            document.getElementById("endResult").textContent="挑戰失敗！";
         }
 
-        input.disabled=true;
-        document.getElementById("restart").style.display="block";
+        document.getElementById("end").style.display="block";
+
+        currentInput="";
+        updateInputDisplay();
+
         return;
     }
 
     let response="";
 
-    if(can){
-        const ttt=Math.floor(Math.random()*100)+1;
-
-        if(ttt<=re){
-            can=false;
-
-            if(guess<ans){
-                response="答案比 "+guess+" 小";
-            }else{
-                response="答案比 "+guess+" 大";
-            }
+    if(cost===lieStep){
+        if(guess<ans){
+            response="答案比 "+guess+" 小";
         }else{
-            re+=10;
-
-            if(guess<ans){
-                response="答案比 "+guess+" 大";
-            }else{
-                response="答案比 "+guess+" 小";
-            }
+            response="答案比 "+guess+" 大";
         }
     }else{
         if(guess<ans){
@@ -155,8 +190,8 @@ function guess(){
 
     addHistory(cost,guess,response);
 
-    input.value="";
-    input.focus();
+    currentInput="";
+    updateInputDisplay();
 }
 
 function addHistory(number,guess,response){
@@ -165,7 +200,7 @@ function addHistory(number,guess,response){
     const item=document.createElement("p");
     item.textContent="第 "+number+" 次：猜 "+guess+" → "+response;
 
-    history.appendChild(item);
+    history.insertBefore(item,history.firstChild);
 }
 
 function restartGame(){
