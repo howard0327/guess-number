@@ -9,10 +9,14 @@
 <body>
 
 <div class="game">
-    <h1>終極密碼說謊版</h1>
+    <div id="intro">
+        <h1>終極密碼說謊版</h1>
+        <p class="notice">可能有一次回答是假的……</p>
+        <button id="startButton" onclick="showMenu()">準備開始</button>
+    </div>
 
-    <div id="menu">
-        <p>請選擇範圍</p>
+    <div id="menu" style="display:none;">
+        <h2>請選擇範圍</h2>
         <button onclick="startGame(20)">0 ~ 20</button>
         <button onclick="startGame(50)">0 ~ 50</button>
         <button onclick="startGame(100)">0 ~ 100</button>
